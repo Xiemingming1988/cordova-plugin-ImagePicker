@@ -233,11 +233,15 @@
         [[TZImageManager manager] getOriginalPhotoDataWithAsset:asset completion:^(NSData *data, NSDictionary *info, BOOL isDegraded) {
             
             NSString *path = [self saveNSDataToFile:data withName:fileName];
+			NSData *_data = [NSData  dataWithContentsOfURL:[NSURL URLWithString:path]];
+			NSString *iconStr = [_data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+			
             NSDictionary* fileObj = @{
                                       @"path": path,
                                       @"width": @([asset pixelWidth]),
                                       @"height": @([asset pixelHeight]),
-                                      @"size": @([data length])
+                                      @"size": @([data length]),
+									  @"base": iconStr
                                       };
             [originalPaths addObject:fileObj];
             
@@ -270,11 +274,14 @@
             [[TZImageManager manager] getOriginalPhotoDataWithAsset:asset completion:^(NSData *data, NSDictionary *info, BOOL isDegraded) {
                 
                 NSString *path = [self saveNSDataToFile:data withName:originName];
+				NSData *_data = [NSData  dataWithContentsOfURL:[NSURL URLWithString:path]];
+				NSString *iconStr = [_data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
                 NSDictionary* fileObj = @{
                                           @"path": path,
                                           @"width": @([asset pixelWidth]),
                                           @"height": @([asset pixelHeight]),
-                                          @"size": @([data length])
+                                          @"size": @([data length]),
+										  @"base": iconStr
                                           };
                 [compressedPaths addObject:fileObj];
                 
@@ -298,11 +305,14 @@
                 
                 NSString *fileName = [[[originName lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"JPG"];
                 NSString *path = [self saveNSDataToFile:compressed withName:fileName];
+				NSData *_data = [NSData  dataWithContentsOfURL:[NSURL URLWithString:path]];
+				NSString *iconStr = [_data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
                 NSDictionary* fileObj = @{
                                           @"path": path,
                                           @"width": @(newImage.size.width * newImage.scale),
                                           @"height": @(newImage.size.height * newImage.scale),
-                                          @"size": @([compressed length])
+                                          @"size": @([compressed length]),
+										  @"base": iconStr
                                           };
                 [compressedPaths addObject:fileObj];
                 
