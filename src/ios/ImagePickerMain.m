@@ -233,7 +233,8 @@
         [[TZImageManager manager] getOriginalPhotoDataWithAsset:asset completion:^(NSData *data, NSDictionary *info, BOOL isDegraded) {
             
             NSString *path = [self saveNSDataToFile:data withName:fileName];
-			NSData *_data = [NSData  dataWithContentsOfURL:[NSURL URLWithString:path]];
+				UIImage *imgforurl = [[UIImage alloc]initWithContentsOfFile:path];
+				NSData *_data = UIImagePNGRepresentation(imgforurl);
 			NSString *iconStr = [_data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
 			
             NSDictionary* fileObj = @{
@@ -274,7 +275,8 @@
             [[TZImageManager manager] getOriginalPhotoDataWithAsset:asset completion:^(NSData *data, NSDictionary *info, BOOL isDegraded) {
                 
                 NSString *path = [self saveNSDataToFile:data withName:originName];
-				NSData *_data = [NSData  dataWithContentsOfURL:[NSURL URLWithString:path]];
+				UIImage *imgforurl = [[UIImage alloc]initWithContentsOfFile:path];
+				NSData *_data = UIImagePNGRepresentation(imgforurl);
 				NSString *iconStr = [_data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
                 NSDictionary* fileObj = @{
                                           @"path": path,
@@ -305,7 +307,8 @@
                 
                 NSString *fileName = [[[originName lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"JPG"];
                 NSString *path = [self saveNSDataToFile:compressed withName:fileName];
-				NSData *_data = [NSData  dataWithContentsOfURL:[NSURL URLWithString:path]];
+				UIImage *imgforurl = [[UIImage alloc]initWithContentsOfFile:path];
+				NSData *_data = UIImagePNGRepresentation(imgforurl);
 				NSString *iconStr = [_data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
                 NSDictionary* fileObj = @{
                                           @"path": path,
